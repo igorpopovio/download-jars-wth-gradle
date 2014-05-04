@@ -10,7 +10,11 @@ dependencies {
 }
 
 task downloadHibernateJars(type: Copy, dependsOn: 'clean') {
-  from configurations.compile.files { it.name == 'hibernate-core' }
+  def dependencySpec = { it.name == 'hibernate-core' }
+  def hibernateConfiguration = configurations.compile.copy dependencySpec
+  hibernateConfiguration.transitive = false
+  from hibernateConfiguration
+  // from configurations.compile.files dependencySpec
   into "$buildDir/jars"
 }
 
