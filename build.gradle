@@ -9,16 +9,8 @@ dependencies {
   compile 'junit:junit:+'
 }
 
-task downloadJars(type: Copy, dependsOn: 'clean') {
-  from configurations.all
+task downloadHibernateJars(type: Copy, dependsOn: 'clean') {
+  from configurations.compile.files { it.name == 'hibernate-core' }
   into "$buildDir/jars"
 }
 
-task resolve {
-  println "Compile files:"
-  println "*" * 100
-  def myFiles = configurations.compile.files { it.name == 'hibernate-core' }
-  myFiles.each { println it }
-  println '$' * 100
-  println configurations.compile.dump()
-}
