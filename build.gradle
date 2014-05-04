@@ -20,5 +20,5 @@ task resolve {
   def myFiles = configurations.compile.files { it.name == 'hibernate-core' }
   myFiles.each { println it }
   println '$' * 100
-
+  println configurations.compile.dump()
 }
