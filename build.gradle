@@ -14,9 +14,18 @@ task downloadJars(type: Copy, dependsOn: 'clean') {
   into "$buildDir/jars"
 }
 
-task showJars(dependsOn: 'clean') {
-  def compileConfiguration = configurations.compile.resolvedConfiguration
-  def artifacts = compileConfiguration.getResolvedArtifacts()
-  artifacts.each { println it.file }
-}
+task resolve {
+  println "Compile files:"
+  println "*" * 100
+  println "CONFIG TYPE: >>>>>>>> " + configurations.compile.class.name
+  def dependency = configurations.compile.dependencies.findAll { it.name == 'hibernate-core' }
+  def hibernateFiles = configurations.compile.files dependency as Dependency
+  hibernateFiles.each { println it }
+  configurations.create 'hibernate'
+  dependencies {
+    hibernate 'org.hibernate:hibernate-core:4.3.5.Final'
+  }
+  configurations.hibernate.files { println it }
+  println '$' * 100
 
+}
