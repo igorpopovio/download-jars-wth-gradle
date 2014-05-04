@@ -15,7 +15,8 @@ task downloadJars(type: Copy, dependsOn: 'clean') {
 }
 
 task showJars(dependsOn: 'clean') {
-  def hibernateDependency = configurations.compile.allDependencies.findAll { it.name.contains('hibernate') }
-  println hibernateDependency
+  def compileConfiguration = configurations.compile.resolvedConfiguration
+  def artifacts = compileConfiguration.getResolvedArtifacts()
+  artifacts.each { println it.file }
 }
 
