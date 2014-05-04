@@ -17,20 +17,8 @@ task downloadJars(type: Copy, dependsOn: 'clean') {
 task resolve {
   println "Compile files:"
   println "*" * 100
-  println "CONFIG TYPE: >>>>>>>> " + configurations.compile.class.name
-  def dependency = configurations.compile.dependencies.findAll { it.name == 'hibernate-core' }
-  def myDeps = []
-  myDeps << (Dependency) dependency
-  def hibernateFiles = configurations.compile.files(myDeps)
-  hibernateFiles.each { println it }
-  configurations.create 'hibernate'
-  dependencies {
-    hibernate 'org.hibernate:hibernate-core:4.3.5.Final'
-  }
-  configurations.hibernate.files { println it }
-
-  myFiles = configurations.compile.files 'org.hibernate:hibernate-core:4.3.5.Final'
-  println myFiles
+  def myFiles = configurations.compile.files { it.name == 'hibernate-core' }
+  myFiles.each { println it }
   println '$' * 100
 
 }
